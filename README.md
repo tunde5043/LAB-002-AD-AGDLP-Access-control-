@@ -26,3 +26,60 @@ Design and implement role-based access control using Active Directory security g
 - Positive and negative authorization tests confirm the security controls.
 
 *Project context: Simulated enterprise IAM implementation conducted in a Windows Server Active Directory home lab.*
+
+## 2. IAM Architecture and AGDLP Design
+
+### Access Control Model
+
+Northbridge Technology implemented the Active Directory AGDLP model to manage access to its Finance invoice repository.
+
+AGDLP stands for:
+
+- **A — Accounts:** Individual employee identities.
+- **G — Global Groups:** Organize employees according to business roles.
+- **DL — Domain Local Groups:** Represent access requirements for specific resources.
+- **P — Permissions:** Define the actions authorized users can perform on those resources.
+
+### Group Membership and Permission Flow
+
+```text
+Alice Johnson (ajohnson)
+         |
+         v
+GG_Finance_AP
+(Global Security Group)
+         |
+         v
+DL_Invoices_Modify
+(Domain Local Security Group)
+         |
+         v
+\\DC01\FinanceInvoices
+NTFS: Modify
+SMB: Change + Read
+```
+
+### Technical Configuration
+
+| Component | Configuration |
+|---|---|
+| Active Directory domain | tunde.lab |
+| Domain controller | DC01 |
+| Client workstation | WIN11-01 |
+| Authorized user | ajohnson (Finance) |
+| Unauthorized test user | mbrown (Human Resources) |
+| Global security group | GG_Finance_AP |
+| Domain local security group | DL_Invoices_Modify |
+| Shared resource | \\DC01\FinanceInvoices |
+| NTFS permission | Modify |
+| SMB share permission | Change + Read |
+
+### Security Design Decisions
+
+**Role-Based Access Control (RBAC):** Access is managed through security groups associated with business roles rather than individual user permissions.
+
+**Principle of Least Privilege:** Finance employees receive the permissions necessary to perform their assigned duties without being granted unnecessary administrative privileges.
+
+**Separation of Duties:** Human Resources employees are not automatically authorized to access Finance invoice records.
+
+**Centralized Access Management:** When an employee joins or leaves the Accounts Payable role, administrators can update their global group membership instead of modifying permissions directly on the shared folder.
