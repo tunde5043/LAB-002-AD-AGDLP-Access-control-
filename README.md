@@ -2,13 +2,13 @@
 Active Directory identity provisioning and role-based access control using AGDLP, NTFS, and SMB permissions.
 ## 1. Business Scenario
 
-**Organization:** Northbridge Technologies  
+**Organization:** Northbridge Technology  
 **Environment:** Active Directory (`tunde.lab`)  
 **Department:** Finance — Accounts Payable
 
 ### Business Requirement
 
-Northbridge Technologies requires secure access to its Finance invoice repository.
+Northbridge Technology requires secure access to its Finance invoice repository.
 
 Alice Johnson, an Accounts Payable employee, must be able to create, read, modify, and delete invoice documents as part of her daily responsibilities.
 
