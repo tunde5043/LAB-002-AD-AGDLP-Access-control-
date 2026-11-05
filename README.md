@@ -148,3 +148,60 @@ Performed positive and negative authorization tests from `WIN11-01`.
 The tests demonstrated that the authorized Finance user could perform the required file operations while the HR test user was denied access.
 
 **Testing limitation:** This validation covered the configured access paths. Group-membership revocation, audit-event collection, and additional permission paths were not tested.
+
+
+## 4. Evidence and Validation
+
+The following screenshots document the implementation and verification of role-based access control in the Active Directory home lab.
+
+### 4.1 AGDLP Group Nesting
+
+![AGDLP group membership](LAB-002-AGDLP-Group-Nesting-Redacted.png.png)
+
+Verified that Alice Johnson belongs to `GG_Finance_AP`, which is nested inside `DL_Invoices_Modify`.
+
+### 4.2 NTFS Permissions
+
+![NTFS permissions](LAB-002-NTFS-Permissions-Verified.png.png)
+
+Verified that `DL_Invoices_Modify` has Modify permissions on the Finance invoice folder.
+
+### 4.3 SMB Share Permissions
+
+![SMB share permissions](LAB-002-SMB-Share-Permissions-Verified.png.png)
+
+Verified that `DL_Invoices_Modify` has Change permissions on the `FinanceInvoices` network share.
+
+### 4.4 Positive Authorization Tests — Alice Johnson
+
+**File creation**
+
+![Alice file creation](LAB-002%20%E2%80%94%20Alice%27s%20Write%20Access%20Test%20passed..png)
+
+**File modification**
+
+![Alice file modification](Alice%27s%20Modify%20Permission%20Test%20PASSED.png)
+
+**File deletion**
+
+![Alice file deletion](LAB-002-Alice-Delete-Verified.png.png)
+
+These tests demonstrate that the authorized Finance user could create, modify, and delete files in the protected network share.
+
+### 4.5 Negative Authorization Test — Michael Brown
+
+![Michael access denied](LAB-002-Michael-Access-Denied.png.png)
+
+Verified that Michael Brown, an HR employee outside the authorized Finance security group, was denied access to `\\DC01\FinanceInvoices`.
+
+### Validation Summary
+
+| Security Control | Result |
+|---|---|
+| AGDLP group nesting | Verified |
+| NTFS Modify permission | Verified |
+| SMB Change permission | Verified |
+| Authorized Finance access | Passed |
+| Unauthorized HR access | Denied as expected |
+
+**Conclusion:** The configured AGDLP, NTFS, and SMB controls passed the positive and negative authorization tests performed in this lab.
